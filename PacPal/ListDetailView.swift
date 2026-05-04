@@ -1,22 +1,31 @@
+//
+// ListDetailView.swift
+// Single-list checklist editing: toggle, reorder, add/remove items; updates funnel through ListStore.
+
 import SwiftUI
 
 struct ListDetailView: View {
     let listId: String
     @EnvironmentObject private var store: ListStore
+    // Environment values (`@Environment`) are injected by SwiftUI — dismiss pops this pushed screen.
     @Environment(\.dismiss) private var dismiss
+    // `$draftLabel` in TextField is a Binding — edits flow back into this `@State` string.
     @State private var draftLabel = ""
 
+    // Computed Optional — unwrap with `if let base` / `guard let base` in methods.
     private var base: PackingList? {
         store.lists.first { $0.id == listId }
     }
 
     private var sortedItems: [PackingItem] {
+        // `guard let` — exits early with `[]` if no list loaded.
         guard let base else { return [] }
         return base.items.sorted { $0.order < $1.order }
     }
 
     var body: some View {
         Group {
+            // Swift shorthand: `if let base` unwraps Optional for the branch (same as `if let base = base`).
             if let base {
                 checklist(base)
             } else {
@@ -46,6 +55,7 @@ struct ListDetailView: View {
                     Text("No items yet — add one below.")
                         .foregroundStyle(.secondary)
                 } else {
+                    // `Array(enumerated())` + `id: \.element.id` — stable identity per row when index changes.
                     ForEach(Array(sortedItems.enumerated()), id: \.element.id) { index, item in
                         itemRow(list: list, item: item, index: index, count: sortedItems.count)
                     }
@@ -152,6 +162,7 @@ struct ListDetailView: View {
     /// Persists items in **on-screen order**, re-numbering `order` 0...(n-1) like PacPal `normalizeOrders`.
     private func apply(_ list: PackingList, itemsInScreenOrder: [PackingItem]) {
         var next = list
+        // `var item` in map closure — structs are mutable when you declare `var` binding in the iteration.
         next.items = itemsInScreenOrder.enumerated().map { order, var item in
             item.order = order
             return item
@@ -203,6 +214,7 @@ struct ListDetailView: View {
     }
 
     private func confirmDelete() {
+        // `guard let base` unwraps Optional; early return avoids force-unwrapping.
         guard let base else { return }
         store.deleteList(id: base.id)
         dismiss()

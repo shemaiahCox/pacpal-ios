@@ -1,5 +1,10 @@
+//
+// BuiltInTemplates.swift
+// Namespace-style `enum` with no cases — only `static` data + lookup helpers (common Swift idiom).
+
 import Foundation
 
+// `enum` with no cases cannot be instantiated; use it to group static members (like a namespace).
 enum BuiltInTemplates {
     static let all: [ScenarioTemplate] = [
         ScenarioTemplate(
@@ -58,6 +63,7 @@ enum BuiltInTemplates {
         ),
     ]
 
+    /// Returns Optional — `nil` if id unknown (caller throws `.unknownTemplate` in ListStore).
     static func template(id: String) -> ScenarioTemplate? {
         all.first { $0.id == id }
     }

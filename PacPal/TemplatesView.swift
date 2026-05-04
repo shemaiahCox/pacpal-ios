@@ -1,7 +1,12 @@
+//
+// TemplatesView.swift
+// Template picker: creates lists via ListStore + shows errors in an item-based `.alert`.
+
 import SwiftUI
 
 struct TemplatesView: View {
     @EnvironmentObject private var store: ListStore
+    // Sheet/alert payloads often use Optional + Identifiable helper type (SwiftUI binds `alert(item:)`.
     @State private var alertPayload: AlertPayload?
 
     var body: some View {
@@ -38,6 +43,7 @@ struct TemplatesView: View {
             }
         }
         .navigationTitle("Templates")
+        // `$alertPayload` Binding — Alert presented when payload non-nil; dismiss sets it nil.
         .alert(item: $alertPayload) { payload in
             Alert(title: Text(payload.title), message: Text(payload.body), dismissButton: .default(Text("OK")))
         }
@@ -46,6 +52,7 @@ struct TemplatesView: View {
     private func pick(_ template: ScenarioTemplate) {
         do {
             _ = try store.createFromTemplate(templateId: template.id)
+            // Discard return value `_` — side effect is navigation + new list stored.
         } catch ListStoreError.freeLimit {
             alertPayload = AlertPayload(
                 title: "List limit reached",
@@ -53,6 +60,7 @@ struct TemplatesView: View {
                     "PacPal saves up to \(FREE_TIER_LIST_CAP) lists on the free tier. Delete a list on the Lists tab or unlock Pro later."
             )
         } catch {
+            // Bare `catch` — any other thrown Error lands here (`LocalizedError`, etc.).
             alertPayload = AlertPayload(title: "Could not create list", body: "Something went wrong. Try again.")
         }
     }
@@ -87,6 +95,7 @@ private struct TemplateRowView: View {
     }
 }
 
+// SwiftUI `.alert(item:)` requires Identifiable payload — UUID id makes each alert instance unique.
 private struct AlertPayload: Identifiable {
     let id = UUID()
     let title: String

@@ -1,3 +1,7 @@
+//
+// AboutPacPalSheet.swift
+// Modal sheet (`ListsHomeView` presents it); owns nested NavigationStack + dismiss from toolbar.
+
 import SwiftUI
 
 struct AboutPacPalSheet: View {
@@ -21,6 +25,7 @@ struct AboutPacPalSheet: View {
                     .foregroundStyle(.secondary)
                 }
                 .padding(20)
+                // Leading alignment stretches content horizontally but keeps text left-aligned.
                 .frame(maxWidth: .infinity, alignment: .leading)
             }
             .navigationTitle("About")

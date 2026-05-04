@@ -1,9 +1,15 @@
+//
+// ListsHomeView.swift
+// Home list of packing lists — loading gate, swipe delete, modal About sheet.
+
 import SwiftUI
 
 struct ListsHomeView: View {
     @EnvironmentObject private var store: ListStore
+    // `@State` — private view-local mutable state owned by SwiftUI (triggers redraw when toggled).
     @State private var showAbout = false
 
+    // Computed property (`var` without args) — re-evaluates when `store` changes dependencies.
     private var sortedLists: [PackingList] {
         store.lists.sorted { $0.updatedAt > $1.updatedAt }
     }
@@ -28,11 +34,13 @@ struct ListsHomeView: View {
                 .accessibilityLabel("About PacPal")
             }
         }
+        // `$showAbout` — passes a `Binding<Bool>` so the sheet can set it false when dismissed.
         .sheet(isPresented: $showAbout) {
             AboutPacPalSheet()
         }
     }
 
+    // `@ViewBuilder` — allows multiple/if branches that each produce a View, combined into one composite view.
     @ViewBuilder
     private var listContent: some View {
         List {
@@ -60,7 +68,9 @@ struct ListsHomeView: View {
                 }
             } else {
                 Section {
+                    // ForEach needs `Identifiable` elements (`PackingList` has `id`).
                     ForEach(sortedLists) { list in
+                        // `NavigationLink(value:)` pushes using NavigationStack destinations (see RootTabView).
                         NavigationLink(value: list.id) {
                             ListRowView(list: list)
                         }
@@ -124,10 +134,12 @@ struct ListsHomeView: View {
     }
 }
 
+// `private struct` — only visible in this file; keeps row UI colocated with the screen.
 private struct ListRowView: View {
     let list: PackingList
 
     private var summary: String {
+        // Key-path shorthand `\PackingItem.checked` — shorthand for `{ $0.checked }`.
         let done = list.items.filter(\.checked).count
         return "\(done)/\(list.items.count) packed"
     }
