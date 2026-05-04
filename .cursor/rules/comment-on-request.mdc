@@ -1,0 +1,29 @@
+---
+description: >-
+  When the user says "comment" or asks for commentary — add detailed syntax and
+  concept comments in Swift source. Not for .cursorignore (indexing excludes).
+alwaysApply: true
+---
+
+# Comment-on-request (Swift and concepts)
+
+## Important: not `.cursorignore`
+
+Use **this rule** for *how the agent writes comments*.  
+Use **`.cursorignore`** only for *which paths Cursor should skip when indexing*.
+
+## When this rule applies
+
+Follow the instructions below **only** when the user is asking for comments or documentation *in source code*, including shorthand like:
+
+- **comment**, **comments**, **add comments**, **document this**, **annotate**, **syntax refresher**
+
+If the user is **not** asking for comments, **ignore** this rule for that turn (do not add comment-only churn).
+
+## What to add
+
+1. **File-level**: module purpose, SwiftUI patterns, and pointers to related files.
+2. **Types and methods**: non-obvious behavior, persistence, navigation, and concurrency notes.
+3. **Inline**: Swift syntax worth remembering — `ObservableObject`, `@Published`, `NavigationPath`, `Codable`, optionals.
+
+Prefer **precision** over volume. Do **not** churn standalone markdown unless the user asks. Do **not** remove existing comments to “clean up.”

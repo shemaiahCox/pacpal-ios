@@ -1,0 +1,15 @@
+---
+description: Keep README and playbook updated when committing or pushing
+alwaysApply: true
+---
+
+# Documentation sync (README + PLAYBOOK)
+
+When the user asks for a **git commit**, **commit and push**, or **push** — or when you finish work that changes **product behavior**, **folder layout**, **run/build commands**, **dependencies**, **navigation**, **persistence**, or **IAP**:
+
+1. **Review** [README.md](README.md) — quick start, prerequisites, repo layout table, and links must match reality.
+2. **Review** [docs/PLAYBOOK.md](docs/PLAYBOOK.md) — update §2 Repository map, reading order, data/navigation sections, roadmap, and **Swift/SwiftUI learning** notes when structure or milestones change.
+3. If nothing material changed, **do not** churn docs for cosmetic edits.
+4. **Never** paste secrets into README or the playbook; use placeholders only.
+
+Include doc updates **in the same commit** as the code change when possible, or a dedicated commit immediately after.
