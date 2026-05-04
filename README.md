@@ -26,7 +26,7 @@ If signing fails on a physical device, set your **Team** on the `PacPal` target.
 | `PacPal/` | Swift sources and `Assets.xcassets` |
 | `PacPal/Persistence.swift` | Versioned JSON in `UserDefaults` (same schema key as Expo `@pacpal/state-v1`) |
 | `PacPal/ListStore.swift` | `ObservableObject` app state + save debounce (~320 ms) |
-| `docs/PLAYBOOK.md` | Product, map, Swift/SwiftUI learning pointers |
+| `docs/PLAYBOOK.md` | Product, repo map, Swift concepts-by-file learning track |
 | `.cursor/rules/` | Doc sync + comment-on-request |
 
 ## Security

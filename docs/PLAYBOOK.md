@@ -25,6 +25,8 @@
 | `PacPal/BuiltInTemplates.swift` | Same template ids/items as `pacpal/data/templates.ts` |
 | `docs/PLAYBOOK.md` | This file |
 
+**Swift learning:** Section 7 lists a suggested **reading order** through the Swift files above (concepts to notice per file).
+
 ## 3. Stack
 
 | Piece | Role |
@@ -52,6 +54,25 @@
 - **`NavigationPath`:** reassigned after `append` so `@Published` triggers updates.  
 - **`Codable`:** keep field names aligned with JSON from the TS app (`camelCase`).  
 - **`MainActor`:** `ListStore` is `@MainActor` so UI mutations stay on the main thread.
+
+## 7. Swift concepts by file (learning track)
+
+Use this order if you already know general programming and want **Swift / SwiftUI** patterns grounded in this repo. Each file is small; the combination covers a useful day-to-day slice of iOS code.
+
+**Suggested reading order**
+
+1. `PacPal/DomainModels.swift` — `struct`, `let`/`var`, protocol conformance (`Codable`, `Identifiable`, `Equatable`, `Hashable`), optionals, `CodingKeys`, `enum` errors (`LocalizedError`).
+2. `PacPal/BuiltInTemplates.swift` — `enum` as a namespace (no cases), `static` data and `template(id:)` → optional lookup.
+3. `PacPal/Persistence.swift` — `final class`, singleton, closure-initialized properties, `guard`/`do`/`catch`/`try?`, `Codable` encode/decode.
+4. `PacPal/ListStore.swift` — `@MainActor`, `ObservableObject`, `@Published`, `private(set)`, `#if DEBUG`, `throws`, `[weak self]` / `guard let self`, `DispatchWorkItem` debounce, `NavigationPath` reassignment, `private extension` on `UUID`.
+5. `PacPal/PacPalApp.swift` — `@main`, `App`, `@StateObject`, `environmentObject`.
+6. `PacPal/RootTabView.swift` — `TabView(selection:)`, `NavigationStack(path:)`, `navigationDestination`, `.tag`.
+7. `PacPal/ListDetailView.swift` — `@EnvironmentObject`, `@Environment`, `@State`, optional-driven UI, `@ViewBuilder`, `some View`, `ForEach` + stable `id`, `$` bindings, copying/mutating `struct` values in helpers.
+8. `PacPal/ListsHomeView.swift` — `.sheet`, list sections, `swipeActions`, nested `private struct` subviews, key-path shorthand (e.g. `filter(\.checked)`).
+9. `PacPal/TemplatesView.swift` — `.alert(item:)`, `catch` on specific `ListStoreError` vs generic `catch`, small `Identifiable` alert payload type.
+10. `PacPal/AboutPacPalSheet.swift` — modal `NavigationStack`, `dismiss` from environment.
+
+**Not emphasized in this codebase (learn elsewhere when ready):** `async`/`await`, custom generics, actors, SwiftData/Core Data.
 
 ## See also
 
