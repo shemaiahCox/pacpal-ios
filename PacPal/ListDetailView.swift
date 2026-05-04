@@ -162,10 +162,10 @@ struct ListDetailView: View {
     /// Persists items in **on-screen order**, re-numbering `order` 0...(n-1) like PacPal `normalizeOrders`.
     private func apply(_ list: PackingList, itemsInScreenOrder: [PackingItem]) {
         var next = list
-        // `var item` in map closure — structs are mutable when you declare `var` binding in the iteration.
-        next.items = itemsInScreenOrder.enumerated().map { order, var item in
-            item.order = order
-            return item
+        next.items = itemsInScreenOrder.enumerated().map { index, item in
+            var updated = item
+            updated.order = index
+            return updated
         }
         store.updateList(next)
     }
